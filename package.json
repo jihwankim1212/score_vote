@@ -1,5 +1,5 @@
 {
-  "id":"icx_score",
+  "id":"vote",
   "version":"0.1.0",
   "auth":{
     "name":"Theloop Dev Team",
@@ -36,11 +36,10 @@
     "query":[
         {
             "method":"icx_getBalance",
-            "params": ["string"],
+            "params": {"address":"string"},
             "description":"Get the balance of address."
         }
     ]
   },
-  "main": "icx_score",
-  "test": "test_icx_score"
+  "main": "vote"
 }
