@@ -239,7 +239,7 @@ class UserScore(ScoreBase):
 
         params = request['params']
         self.logd(params)
-        address = params[0]
+        address = params['address']
         self.logd(address)
 
         if not check_address(address):
