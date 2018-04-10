@@ -1,3 +1,4 @@
+import os
 import leveldb
 import json
 
@@ -34,7 +35,7 @@ class UserScore(ScoreBase):
         ScoreHelper is special module to capsulize SCORE operation.
         """
         if info is None:
-            with open(dirname(__file__)+'/'+ScoreBase.PACKAGE_FILE, 'r') as f:
+            with open(os.path.dirname(__file__)+'/'+ScoreBase.PACKAGE_FILE, 'r') as f:
                 self.__score_info = json.loads(f.read())
                 f.close()
         else:
@@ -238,7 +239,7 @@ class UserScore(ScoreBase):
 
         params = request['params']
         self.logd(params)
-        address = params[0]
+        address = params['address']
         self.logd(address)
 
         if not check_address(address):
