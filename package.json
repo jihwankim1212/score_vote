@@ -3,11 +3,11 @@
   "version":"0.1.0",
   "auth":{
     "name":"Theloop Dev Team",
-    "email":"dev@theloop.co.kr",
+    "email":"dsoup@suresign.io",
     "org":"Theloop inc"
   },
   "dependencies":{},
-  "description":"LoopChain ICX Coin Score",
+  "description":"LoopChain Vote Score",
   "repository":{},
   "homepage":"http://www.theloop.co.kr",
   "function":{
