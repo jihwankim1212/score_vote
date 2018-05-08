@@ -229,8 +229,8 @@ class UserScore(ScoreBase):
         set_balance(self.__db, 'createAddress', createAddress)
         set_balance(self.__db, 'itemCnt', len(items))
 
-        self.logd('__invoke_makeVote() getBalance subject : ' + get_balance(self.__db, 'subject'))
-        self.logd('__invoke_makeVote() getBalance itemCnt : ' + len(items))
+        #self.logd('__invoke_makeVote() getBalance subject : ' + get_balance(self.__db, 'subject'))
+        #self.logd('__invoke_makeVote() getBalance itemCnt : ' + len(items))
 
         for idx in items:
             item = items[idx]
@@ -350,7 +350,7 @@ class UserScore(ScoreBase):
         value['subject'] = get_balance_str(self.__db, 'subject')
         value['createAddress'] = get_balance_str(self.__db, 'createAddress')
 
-        self.logd('__query_voteInfo() db : ' + self.__db)
+        #self.logd('__query_voteInfo() db : ' + self.__db)
 
         response = create_jsonrpc_success_response(_id, value)
 
