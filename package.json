@@ -12,33 +12,57 @@
   "homepage":"http://www.theloop.co.kr",
   "function":{
     "invoke":[
-        {
-            "method":"icx_init",
-            "params": {
-                "address":"string",
-                "value":"string",
-                "data":"string"
-            },
-            "description":"Initialize the account."
+      {
+        "method":"icx_init",
+        "params": {
+          "address":"string",
+          "value":"string",
+          "data":"string"
         },
-        {
-            "method":"icx_sendTransaction",
-            "params": {
-                "from":"string",
-                "to":"string",
-                "value":"string",
-                "data":"string"
-            },
-            "description":"Creates new message call transaction."
-        }
-
+        "description":"Initialize the account."
+      },
+      {
+        "method":"icx_sendTransaction",
+        "params": {
+          "from":"string",
+          "to":"string",
+          "value":"string",
+          "data":"string"
+        },
+        "description":"Creates new message call transaction."
+      },
+      {
+        "method":"make_vote",
+        "params": {
+          "subject":"string",
+          "items":["string"],
+          "createAddress":"string"
+        },
+        "description":"Make vote."
+      },
+      {
+        "method":"vote_tx",
+        "params":{
+          "itemAddress":["string"],
+          "createAddress":"string"
+        },
+        "description":"voting."
+      }
     ],
     "query":[
-        {
-            "method":"icx_getBalance",
-            "params": {"address":"string"},
-            "description":"Get the balance of address."
-        }
+      {
+        "method":"icx_getBalance",
+        "params": {"address":"string"},
+        "description":"Get the balance of address."
+      },
+      {
+        "method":"vote_info",
+        "description":"Get vote."
+      },
+      {
+        "method":"vote_items",
+        "description":"Get vote items."
+      }
     ]
   },
   "main": "vote"

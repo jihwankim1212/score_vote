@@ -34,7 +34,7 @@ class UserScore(ScoreBase):
 
     """
     __score_info = None
-    __db_id = 'icx.db'
+    __db_vote_id = 'vote.db'
     __db = None
     __score_helper = None
     __initialized = False
@@ -80,7 +80,7 @@ class UserScore(ScoreBase):
         self.logd('__init_db() start')
         if self.__db is None:
             db = self.__score_helper.load_database(
-                score_id=self.__db_id,
+                score_id=self.__db_vote_id,
                 database_type=ScoreDatabaseType.leveldb)
             self.logd(f'db({db}) is created.')
             self.__db = db
@@ -125,7 +125,9 @@ class UserScore(ScoreBase):
 
             methods = {
                 'icx_init': self.__invoke_init,
-                'icx_sendTransaction': self.__invoke_sendTransaction
+                'icx_sendTransaction': self.__invoke_sendTransaction,
+                'make_vote': self.__invoke_makeVote,
+                'vote_tx': self.__invoke_voteTx
             }
 
             method_name = params['method']
@@ -206,7 +208,56 @@ class UserScore(ScoreBase):
 
         self.logd('__invoke_sendTransaction() end')
 
+    def __invoke_makeVote(self, transaction, block, params):
+        """ Transfer money to other's bank account.
 
+        :param transaction: Transaction data.
+        :param block: Block data.
+        :param params: params from transaction data including 'from', 'to', and 'value'
+        """
+        self.logd('__invoke_makeVote() start')
+
+        subject = params['subject']
+        items = params['items']
+        createAddress = params['createAddress']
+
+        set_balance(self.__db, 'subject', subject)
+        set_balance(self.__db, 'createAddress', createAddress)
+        set_balance(self.__db, 'itemCnt', len(items))
+
+        for idx in items:
+            item = items[idx]
+            set_balance(self.__db, 'item_'+idx, item)
+            set_balance(self.__db, 'item_' + idx + 'cnt', 0)
+
+        self.logd('__invoke_makeVote() end')
+
+    def __invoke_voteTx(self, transaction, block, params):
+        """ Transfer money to other's bank account.
+
+        :param transaction: Transaction data.
+        :param block: Block data.
+        :param params: params from transaction data including 'from', 'to', and 'value'
+        """
+        self.logd('__invoke_voteTx() start')
+
+        itemAddress = params['itemAddress']
+        createAddress = params['createAddress']
+        itemCnt = get_balance(self.__db, 'itemCnt')
+        itemIdx = 0
+
+        while itemIdx < itemCnt:
+            voteAddress = get_balance(self.__db, createAddress+'_' + itemIdx)
+            if voteAddress != '' :
+                raise IcxError(Code.INVALID_TRANSACTION, 'vote has been already transaction.')
+            itemIdx = itemIdx + 1
+
+        for idx in itemAddress:
+            selectAddress = itemAddress[idx]
+            set_balance(self.__db, createAddress+'_'+idx, selectAddress)
+            set_balance(self.__db, itemAddress + '_cnt', get_balance(self.__db, itemAddress + '_cnt') + 1)
+
+        self.logd('__invoke_voteTx() end')
 
     def query(self, params):
         """ Handler of 'Query' requests.
@@ -227,7 +278,10 @@ class UserScore(ScoreBase):
         response = None
 
         methods = {
-            'icx_getBalance': self.__query_getBalance
+            'icx_getBalance': self.__query_getBalance,
+            'vote_info': self.__query_voteInfo,
+            'vote_items': self.__query_voteItems,
+            'vote_tx_allow': self.__query_voteTxAllow
         }
 
         try:
@@ -271,6 +325,57 @@ class UserScore(ScoreBase):
         response = create_jsonrpc_success_response(_id, value)
 
         self.logd('__query_get_balance() end')
+
+        return response
+
+    def __query_voteInfo(self, _id, request):
+        """ Get the current value of bank account.
+
+        :param _id: ID of request. Used it to distingush request.
+        :param request: Request information
+        :return:
+        """
+        self.logd('__query_voteInfo() start')
+        self.logd(f'{str(request)}')
+
+        value = {}
+
+        value['subject'] = get_balance_str(self.__db, 'subject')
+        value['createAddress'] = get_balance_str(self.__db, 'createAddress')
+
+        response = create_jsonrpc_success_response(_id, value)
+
+        self.logd('__query_voteInfo() end')
+
+        return response
+
+    def __query_voteItems(self, _id, request):
+        """ Get the current value of bank account.
+
+        :param _id: ID of request. Used it to distingush request.
+        :param request: Request information
+        :return:
+        """
+        self.logd('__query_voteItems() start')
+        self.logd(f'{str(request)}')
+
+        value = {}
+
+        itemCnt = get_balance(self.__db, 'itemCnt')
+
+        itemIdx = 0
+
+        items = []
+        while itemIdx < itemCnt:
+            items[itemIdx]['item'] = get_balance_str(self.__db, 'item_' + itemIdx)
+            items[itemIdx]['cnt'] = get_balance_str(self.__db, 'item_' + itemIdx + '_cnt')
+            itemIdx = itemIdx + 1
+
+        value['items'] = items
+
+        response = create_jsonrpc_success_response(_id, value)
+
+        self.logd('__query_voteItems() end')
 
         return response
 
