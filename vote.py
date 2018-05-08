@@ -221,15 +221,15 @@ class UserScore(ScoreBase):
 
         subject = params['subject']
         items = params['items']
-        createAddress = str(params['createAddress'])
+        createAddress = params['createAddress']
 
         #self.logd('__invoke_makeVote() subject : ' + subject)
         self.logd('__invoke_makeVote() subject')
 
         self.logd('__invoke_makeVote() subject : ' + subject)
         set_balance(self.__db, 'subject', subject)
-        self.logd('__invoke_makeVote() createAddress : ' + createAddress)
-        set_balance(self.__db, 'createAddress', createAddress)
+        self.logd('__invoke_makeVote() createAddress : ' + str(createAddress))
+        set_balance(self.__db, 'createAddress', str(createAddress))
         self.logd('__invoke_makeVote() itemCnt : ' + str(len(items)))
         set_balance(self.__db, 'itemCnt', str(len(items)))
 
