@@ -240,15 +240,15 @@ class UserScore(ScoreBase):
         #self.logd('__invoke_makeVote() getBalance itemCnt : ' + len(items))
 
         idx = 0
-        item = ''
+        #item = ''
 
         while idx < itemsLen :
             self.logd('__invoke_makeVote() items : ' + str(items))
             self.logd('__invoke_makeVote() item : ' + items[idx])
-            item = items[idx]
+            #item = items[idx]
             self.logd('__invoke_makeVote() idx : ' + idx)
-            set_balance_str(self.__db, 'item_' + idx, item)
-            self.logd('__invoke_makeVote() item : ' + item)
+            set_balance_str(self.__db, 'item_' + idx, items[idx])
+            self.logd('__invoke_makeVote() item : ' + items[idx])
             set_balance(self.__db, 'item_' + idx + 'cnt', 0)
             self.logd('__invoke_makeVote() getBalance itemIdx')
             idx = idx + 1
