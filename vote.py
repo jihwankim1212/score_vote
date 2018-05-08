@@ -228,7 +228,7 @@ class UserScore(ScoreBase):
 
         set_balance(self.__db, 'subject', subject)
         set_balance(self.__db, 'createAddress', createAddress)
-        set_balance(self.__db, 'itemCnt', len(items))
+        set_balance(self.__db, 'itemCnt', str(len(items)))
 
         self.logd('__invoke_makeVote() for')
 
