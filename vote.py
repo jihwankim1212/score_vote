@@ -225,6 +225,7 @@ class UserScore(ScoreBase):
 
         #self.logd('__invoke_makeVote() subject : ' + subject)
         self.logd('__invoke_makeVote() subject')
+        self.logd('__invoke_makeVote() item length : ' + str(len(items)))
 
         set_balance(self.__db, 'subject', subject)
         set_balance(self.__db, 'createAddress', createAddress)
