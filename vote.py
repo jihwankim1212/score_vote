@@ -217,13 +217,13 @@ class UserScore(ScoreBase):
         """
         self.logd('__invoke_makeVote() start')
 
-        self.logd('__invoke_makeVote() db : ' + self.__db)
+        #self.logd('__invoke_makeVote() db : ' + self.__db)
 
         subject = params['subject']
         items = params['items']
         createAddress = params['createAddress']
 
-        self.logd('__invoke_makeVote() subject : ' + subject)
+        #self.logd('__invoke_makeVote() subject : ' + subject)
 
         set_balance(self.__db, 'subject', subject)
         set_balance(self.__db, 'createAddress', createAddress)
@@ -236,7 +236,7 @@ class UserScore(ScoreBase):
             item = items[idx]
             set_balance(self.__db, 'item_'+idx, item)
             set_balance(self.__db, 'item_' + idx + 'cnt', 0)
-            self.logd('__invoke_makeVote() getBalance itemIdx : ' + idx)
+            #self.logd('__invoke_makeVote() getBalance itemIdx : ' + idx)
 
         self.logd('__invoke_makeVote() end')
 
