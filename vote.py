@@ -221,6 +221,7 @@ class UserScore(ScoreBase):
 
         subject = params['subject']
         items = params['items']
+        itemsLen = len(items)
         createAddress = params['createAddress']
 
         #self.logd('__invoke_makeVote() subject : ' + subject)
@@ -230,22 +231,25 @@ class UserScore(ScoreBase):
         set_balance_str(self.__db, 'subject', subject)
         self.logd('__invoke_makeVote() createAddress : ' + createAddress)
         set_balance_str(self.__db, 'createAddress', createAddress)
-        self.logd('__invoke_makeVote() itemCnt : ' + str(len(items)))
-        set_balance_str(self.__db, 'itemCnt', str(len(items)))
+        self.logd('__invoke_makeVote() itemCnt : ' + str(itemsLen))
+        set_balance_str(self.__db, 'itemCnt', str(itemsLen))
 
         self.logd('__invoke_makeVote() for')
 
         #self.logd('__invoke_makeVote() getBalance subject : ' + get_balance(self.__db, 'subject'))
         #self.logd('__invoke_makeVote() getBalance itemCnt : ' + len(items))
 
-        for idx in items:
+        idx = 0
+
+        while idx < itemsLen :
             self.logd('__invoke_makeVote() for')
             item = items[idx]
             self.logd('__invoke_makeVote() idx : ' + idx)
-            set_balance_str(self.__db, 'item_'+idx, item)
+            set_balance_str(self.__db, 'item_' + idx, item)
             self.logd('__invoke_makeVote() item : ' + item)
             set_balance(self.__db, 'item_' + idx + 'cnt', 0)
             self.logd('__invoke_makeVote() getBalance itemIdx')
+            idx = idx + 1
 
         self.logd('__invoke_makeVote() end')
 
