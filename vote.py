@@ -240,6 +240,7 @@ class UserScore(ScoreBase):
         #self.logd('__invoke_makeVote() getBalance itemCnt : ' + len(items))
 
         idx = 0
+        item = ''
 
         while idx < itemsLen :
             self.logd('__invoke_makeVote() items : ' + str(items))
