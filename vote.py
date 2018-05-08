@@ -246,10 +246,9 @@ class UserScore(ScoreBase):
             self.logd('__invoke_makeVote() items : ' + str(items))
             self.logd('__invoke_makeVote() item : ' + items[idx])
             #item = items[idx]
-            self.logd('__invoke_makeVote() idx : ' + idx)
-            set_balance_str(self.__db, 'item_' + idx, items[idx])
+            set_balance_str(self.__db, 'item_' + str(idx), items[idx])
             self.logd('__invoke_makeVote() item : ' + items[idx])
-            set_balance(self.__db, 'item_' + idx + 'cnt', 0)
+            set_balance(self.__db, 'item_' + str(idx) + 'cnt', 0)
             self.logd('__invoke_makeVote() getBalance itemIdx')
             idx = idx + 1
 
