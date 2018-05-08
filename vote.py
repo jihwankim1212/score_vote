@@ -221,7 +221,7 @@ class UserScore(ScoreBase):
 
         subject = params['subject']
         items = params['items']
-        createAddress = params['createAddress']
+        createAddress = str(params['createAddress'])
 
         #self.logd('__invoke_makeVote() subject : ' + subject)
         self.logd('__invoke_makeVote() subject')
