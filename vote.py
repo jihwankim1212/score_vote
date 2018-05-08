@@ -280,8 +280,7 @@ class UserScore(ScoreBase):
         methods = {
             'icx_getBalance': self.__query_getBalance,
             'vote_info': self.__query_voteInfo,
-            'vote_items': self.__query_voteItems,
-            'vote_tx_allow': self.__query_voteTxAllow
+            'vote_items': self.__query_voteItems
         }
 
         try:
