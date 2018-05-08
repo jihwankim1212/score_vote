@@ -239,8 +239,11 @@ class UserScore(ScoreBase):
         #self.logd('__invoke_makeVote() getBalance itemCnt : ' + len(items))
 
         for idx in items:
+            self.logd('__invoke_makeVote() for')
             item = items[idx]
+            self.logd('__invoke_makeVote() idx : ' + idx)
             set_balance_str(self.__db, 'item_'+idx, item)
+            self.logd('__invoke_makeVote() item : ' + item)
             set_balance(self.__db, 'item_' + idx + 'cnt', 0)
             self.logd('__invoke_makeVote() getBalance itemIdx')
 
