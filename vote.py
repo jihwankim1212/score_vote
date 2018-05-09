@@ -306,6 +306,7 @@ class UserScore(ScoreBase):
 
         methods = {
             'icx_getBalance': self.__query_getBalance,
+            'vote_getValue': self.__query_getValue,
             'vote_info': self.__query_voteInfo,
             'vote_items': self.__query_voteItems
         }
@@ -351,6 +352,28 @@ class UserScore(ScoreBase):
         response = create_jsonrpc_success_response(_id, value)
 
         self.logd('__query_get_balance() end')
+
+        return response
+
+    def __query_getValue(self, _id, request):
+        """ Get the current value of bank account.
+
+        :param _id: ID of request. Used it to distingush request.
+        :param request: Request information
+        :return:
+        """
+        self.logd('__query_getValue() start')
+        self.logd(f'{str(request)}')
+
+        params = request['params']
+        self.logd(params)
+        key = params['key']
+        self.logd(key)
+
+        value = get_balance_str(self.__db, key)
+        response = create_jsonrpc_success_response(_id, value)
+
+        self.logd('__query_getValue() end')
 
         return response
 

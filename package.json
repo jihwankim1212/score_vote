@@ -56,6 +56,11 @@
         "description":"Get the balance of address."
       },
       {
+        "method":"vote_getValue",
+        "params": {"key":"string"},
+        "description":"Get the value of key."
+      },
+      {
         "method":"vote_info",
         "description":"Get vote."
       },
