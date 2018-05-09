@@ -283,6 +283,7 @@ class UserScore(ScoreBase):
             set_balance_str(self.__db, createAddress + '_' + str(itemIdx), selectAddress)
             set_balance(self.__db, 'item_' + str(itemAddress) + '_cnt',
                         get_balance(self.__db, 'item_' + str(itemAddress) + '_cnt') + 1)
+            self.logd('__invoke_voteTx() getBalance : ' + str(get_balance(self.__db, 'item_' + str(itemAddress) + '_cnt')))
             itemIdx = itemIdx + 1
 
         self.logd('__invoke_voteTx() end')
@@ -426,7 +427,11 @@ class UserScore(ScoreBase):
             items.append({})
             items[itemIdx]['item'] = get_balance_str(self.__db, 'item_' + str(itemIdx))
             self.logd('__query_voteItems() items : ' + str(items))
-            items[itemIdx]['cnt'] = get_balance_str(self.__db, 'item_' + str(itemIdx) + '_cnt')
+            self.logd('__query_voteItems() itemId : ' + 'item_' + str(itemIdx) + '_cnt')
+            self.logd('__query_voteItems() get_balance : ' + str(get_balance(self.__db, 'item_' + str(itemIdx) + '_cnt')))
+            self.logd(
+                '__query_voteItems() get_balance : ' + get_balance_str(self.__db, 'item_' + str(itemIdx) + '_cnt'))
+            items[itemIdx]['cnt'] = get_balance(self.__db, 'item_' + str(itemIdx) + '_cnt')
             self.logd('__query_voteItems() items : ' + str(items))
             itemIdx = itemIdx + 1
 
