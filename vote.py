@@ -248,7 +248,7 @@ class UserScore(ScoreBase):
             #item = items[idx]
             set_balance_str(self.__db, 'item_' + str(idx), items[idx])
             self.logd('__invoke_makeVote() item : ' + items[idx])
-            set_balance(self.__db, 'item_' + str(idx) + 'cnt', 0)
+            set_balance(self.__db, 'item_' + str(idx) + '_cnt', 0)
             self.logd('__invoke_makeVote() getBalance itemIdx')
             idx = idx + 1
 
