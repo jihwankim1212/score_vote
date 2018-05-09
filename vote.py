@@ -390,8 +390,8 @@ class UserScore(ScoreBase):
 
         items = []
         while itemIdx < itemCnt:
-            items[itemIdx]['item'] = get_balance_str(self.__db, 'item_' + itemIdx)
-            items[itemIdx]['cnt'] = get_balance_str(self.__db, 'item_' + itemIdx + '_cnt')
+            items[itemIdx]['item'] = get_balance_str(self.__db, 'item_' + str(itemIdx))
+            items[itemIdx]['cnt'] = get_balance_str(self.__db, 'item_' + str(itemIdx) + '_cnt')
             itemIdx = itemIdx + 1
 
         value['items'] = items
