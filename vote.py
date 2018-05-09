@@ -268,16 +268,21 @@ class UserScore(ScoreBase):
         itemCnt = get_balance(self.__db, 'itemCnt')
         itemIdx = 0
 
+        #check already
         while itemIdx < itemCnt:
-            voteAddress = get_balance(self.__db, createAddress+'_' + itemIdx)
+            voteAddress = get_balance(self.__db, createAddress + '_' + str(itemIdx))
             if voteAddress != '' :
                 raise IcxError(Code.INVALID_TRANSACTION, 'vote has been already transaction.')
             itemIdx = itemIdx + 1
 
-        for idx in itemAddress:
-            selectAddress = itemAddress[idx]
-            set_balance_str(self.__db, createAddress+'_'+idx, selectAddress)
-            set_balance(self.__db, itemAddress + '_cnt', get_balance(self.__db, itemAddress + '_cnt') + 1)
+        itemIdx = 0
+        itemAddressLen = len(itemAddress)
+        while itemIdx < itemAddressLen :
+            selectAddress = itemAddress[itemIdx]
+            set_balance_str(self.__db, createAddress + '_' + str(itemIdx), selectAddress)
+            set_balance(self.__db, 'item_' + str(itemAddress) + '_cnt',
+                        get_balance(self.__db, 'item_' + str(itemAddress) + '_cnt') + 1)
+            itemIdx = itemIdx + 1
 
         self.logd('__invoke_voteTx() end')
 
