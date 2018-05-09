@@ -385,15 +385,22 @@ class UserScore(ScoreBase):
         value = {}
 
         itemCnt = get_balance(self.__db, 'itemCnt')
+        self.logd('__query_voteItems() itemCnt : ' + str(itemCnt))
 
         itemIdx = 0
 
         items = []
+
+        self.logd('__query_voteItems() items : ' + str(items))
         while itemIdx < itemCnt:
+            self.logd('__query_voteItems() itemIdx : ' + str(itemIdx))
             items[itemIdx]['item'] = get_balance_str(self.__db, 'item_' + str(itemIdx))
+            self.logd('__query_voteItems() items : ' + str(items))
             items[itemIdx]['cnt'] = get_balance_str(self.__db, 'item_' + str(itemIdx) + '_cnt')
+            self.logd('__query_voteItems() items : ' + str(items))
             itemIdx = itemIdx + 1
 
+        self.logd('__query_voteItems() value : ' + str(value))
         value['items'] = items
 
         response = create_jsonrpc_success_response(_id, value)
