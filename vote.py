@@ -266,14 +266,14 @@ class UserScore(ScoreBase):
         itemAddress = params['itemAddress']
         createAddress = params['createAddress']
         itemCnt = get_balance(self.__db, 'itemCnt')
-        itemIdx = 0
+        #itemIdx = 0
 
         #check already
-        while itemIdx < itemCnt:
-            voteAddress = get_balance(self.__db, createAddress + '_' + str(itemIdx))
-            if voteAddress is not None and voteAddress != '' :
-                raise IcxError(Code.INVALID_TRANSACTION, 'vote has been already transaction.')
-            itemIdx = itemIdx + 1
+        # while itemIdx < itemCnt:
+        #     voteAddress = get_balance(self.__db, createAddress + '_' + str(itemIdx))
+        #     if voteAddress is not None and voteAddress != '' :
+        #         raise IcxError(Code.INVALID_TRANSACTION, 'vote has been already transaction.')
+        #     itemIdx = itemIdx + 1
 
         itemIdx = 0
         itemAddressLen = len(itemAddress)
