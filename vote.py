@@ -217,39 +217,19 @@ class UserScore(ScoreBase):
         """
         self.logd('__invoke_makeVote() start')
 
-        #self.logd('__invoke_makeVote() db : ' + self.__db)
-
         subject = params['subject']
         items = params['items']
         itemsLen = len(items)
         createAddress = params['createAddress']
-
-        #self.logd('__invoke_makeVote() subject : ' + subject)
-        self.logd('__invoke_makeVote() subject')
-
-        self.logd('__invoke_makeVote() subject : ' + subject)
         set_balance_str(self.__db, 'subject', subject)
-        self.logd('__invoke_makeVote() createAddress : ' + createAddress)
         set_balance_str(self.__db, 'createAddress', createAddress)
-        self.logd('__invoke_makeVote() itemCnt : ' + str(itemsLen))
         set_balance_str(self.__db, 'itemCnt', str(itemsLen))
 
-        self.logd('__invoke_makeVote() while')
-
-        #self.logd('__invoke_makeVote() getBalance subject : ' + get_balance(self.__db, 'subject'))
-        #self.logd('__invoke_makeVote() getBalance itemCnt : ' + len(items))
-
         idx = 0
-        #item = ''
 
         while idx < itemsLen :
-            self.logd('__invoke_makeVote() items : ' + str(items))
-            self.logd('__invoke_makeVote() item : ' + items[idx])
-            #item = items[idx]
             set_balance_str(self.__db, 'item_' + str(idx), items[idx])
-            self.logd('__invoke_makeVote() item : ' + items[idx])
             set_balance(self.__db, 'item_' + str(idx) + '_cnt', 0)
-            self.logd('__invoke_makeVote() getBalance itemIdx')
             idx = idx + 1
 
         self.logd('__invoke_makeVote() end')
@@ -279,12 +259,9 @@ class UserScore(ScoreBase):
         itemAddressLen = len(itemAddress)
         while itemIdx < itemAddressLen :
             selectAddress = itemAddress[itemIdx]
-            self.logd('__invoke_voteTx() voteAddress : ' + createAddress + '_' + str(itemIdx))
             set_balance_str(self.__db, createAddress + '_' + str(itemIdx), selectAddress)
             set_balance(self.__db, 'item_' + selectAddress + '_cnt',
                         get_balance(self.__db, 'item_' + selectAddress + '_cnt') + 1)
-            self.logd('__invoke_voteTx() getBalance key : ' + 'item_' + str(itemAddress) + '_cnt')
-            self.logd('__invoke_voteTx() getBalance : ' + str(get_balance(self.__db, 'item_' + str(itemAddress) + '_cnt')))
             itemIdx = itemIdx + 1
 
         self.logd('__invoke_voteTx() end')
@@ -309,7 +286,6 @@ class UserScore(ScoreBase):
 
         methods = {
             'icx_getBalance': self.__query_getBalance,
-            'vote_getValue': self.__query_getValue,
             'vote_info': self.__query_voteInfo,
             'vote_items': self.__query_voteItems
         }
@@ -358,27 +334,27 @@ class UserScore(ScoreBase):
 
         return response
 
-    def __query_getValue(self, _id, request):
-        """ Get the current value of bank account.
-
-        :param _id: ID of request. Used it to distingush request.
-        :param request: Request information
-        :return:
-        """
-        self.logd('__query_getValue() start')
-        self.logd(f'{str(request)}')
-
-        params = request['params']
-        self.logd(params)
-        key = params['key']
-        self.logd(key)
-
-        value = get_balance_str(self.__db, key)
-        response = create_jsonrpc_success_response(_id, value)
-
-        self.logd('__query_getValue() end')
-
-        return response
+    # def __query_getValue(self, _id, request):
+    #     """ Get the current value of bank account.
+    #
+    #     :param _id: ID of request. Used it to distingush request.
+    #     :param request: Request information
+    #     :return:
+    #     """
+    #     self.logd('__query_getValue() start')
+    #     self.logd(f'{str(request)}')
+    #
+    #     params = request['params']
+    #     self.logd(params)
+    #     key = params['key']
+    #     self.logd(key)
+    #
+    #     value = get_balance_str(self.__db, key)
+    #     response = create_jsonrpc_success_response(_id, value)
+    #
+    #     self.logd('__query_getValue() end')
+    #
+    #     return response
 
     def __query_voteInfo(self, _id, request):
         """ Get the current value of bank account.
@@ -394,8 +370,6 @@ class UserScore(ScoreBase):
 
         value['subject'] = get_balance_str(self.__db, 'subject')
         value['createAddress'] = get_balance_str(self.__db, 'createAddress')
-
-        #self.logd('__query_voteInfo() db : ' + self.__db)
 
         response = create_jsonrpc_success_response(_id, value)
 
@@ -416,27 +390,15 @@ class UserScore(ScoreBase):
         value = {}
 
         itemCnt = get_balance(self.__db, 'itemCnt')
-        self.logd('__query_voteItems() itemCnt : ' + str(itemCnt))
-
         itemIdx = 0
-
         items = []
 
-        self.logd('__query_voteItems() items : ' + str(items))
         while itemIdx < itemCnt:
-            self.logd('__query_voteItems() itemIdx : ' + str(itemIdx))
             items.append({})
             items[itemIdx]['item'] = get_balance_str(self.__db, 'item_' + str(itemIdx))
-            self.logd('__query_voteItems() items : ' + str(items))
-            self.logd('__query_voteItems() itemId : ' + 'item_' + str(itemIdx) + '_cnt')
-            self.logd('__query_voteItems() get_balance : ' + str(get_balance(self.__db, 'item_' + str(itemIdx) + '_cnt')))
-            self.logd(
-                '__query_voteItems() get_balance : ' + get_balance_str(self.__db, 'item_' + str(itemIdx) + '_cnt'))
             items[itemIdx]['cnt'] = get_balance(self.__db, 'item_' + str(itemIdx) + '_cnt')
-            self.logd('__query_voteItems() items : ' + str(items))
             itemIdx = itemIdx + 1
 
-        self.logd('__query_voteItems() value : ' + str(value))
         value['items'] = items
 
         response = create_jsonrpc_success_response(_id, value)
