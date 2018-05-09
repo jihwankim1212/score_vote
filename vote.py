@@ -394,7 +394,7 @@ class UserScore(ScoreBase):
         self.logd('__query_voteItems() items : ' + str(items))
         while itemIdx < itemCnt:
             self.logd('__query_voteItems() itemIdx : ' + str(itemIdx))
-            items[itemIdx] = {}
+            items.append({})
             items[itemIdx]['item'] = get_balance_str(self.__db, 'item_' + str(itemIdx))
             self.logd('__query_voteItems() items : ' + str(items))
             items[itemIdx]['cnt'] = get_balance_str(self.__db, 'item_' + str(itemIdx) + '_cnt')
