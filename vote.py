@@ -279,6 +279,7 @@ class UserScore(ScoreBase):
         itemAddressLen = len(itemAddress)
         while itemIdx < itemAddressLen :
             selectAddress = itemAddress[itemIdx]
+            self.logd('__invoke_voteTx() voteAddress : ' + createAddress + '_' + str(itemIdx))
             set_balance_str(self.__db, createAddress + '_' + str(itemIdx), selectAddress)
             set_balance(self.__db, 'item_' + str(itemAddress) + '_cnt',
                         get_balance(self.__db, 'item_' + str(itemAddress) + '_cnt') + 1)
