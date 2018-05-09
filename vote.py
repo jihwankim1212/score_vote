@@ -271,7 +271,7 @@ class UserScore(ScoreBase):
         #check already
         while itemIdx < itemCnt:
             voteAddress = get_balance(self.__db, createAddress + '_' + str(itemIdx))
-            if voteAddress != '' :
+            if voteAddress is not None and voteAddress != '' :
                 raise IcxError(Code.INVALID_TRANSACTION, 'vote has been already transaction.')
             itemIdx = itemIdx + 1
 
