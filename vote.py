@@ -258,10 +258,10 @@ class UserScore(ScoreBase):
         #check already
         self.logd('__invoke_voteTx() while')
         while itemIdx < itemCnt:
-            self.logd('__invoke_voteTx() getBalacnce : ' + get_balance_str(self.__db, createAddress + '_' + str(itemIdx)))
+            self.logd('__invoke_voteTx() getBalacnce : ' + createAddress + '_' + str(itemIdx))
             voteAddress = get_balance_str(self.__db, createAddress + '_' + str(itemIdx))
             self.logd('__invoke_voteTx() voteAddress : ' + voteAddress)
-            if voteAddress is not None and voteAddress != '' :
+            if voteAddress is not None and voteAddress != '' and voteAddress != '0x0' :
                 raise IcxError(Code.INVALID_TRANSACTION, 'vote has been already transaction.')
             itemIdx = itemIdx + 1
 
