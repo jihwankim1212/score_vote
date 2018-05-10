@@ -246,14 +246,20 @@ class UserScore(ScoreBase):
         itemAddress = params['itemAddress']
         createAddress = params['createAddress']
         itemCnt = get_balance(self.__db, 'itemCnt')
-        #itemIdx = 0
+        itemIdx = 0
+
+        #check address
+        if not check_address(createAddress):
+            return create_jsonrpc_error_response(
+                '0', Code.INVALID_PARAMS, f'invalid address({createAddress})')
 
         #check already
-        # while itemIdx < itemCnt:
-        #     voteAddress = get_balance(self.__db, createAddress + '_' + str(itemIdx))
-        #     if voteAddress is not None and voteAddress != '' :
-        #         raise IcxError(Code.INVALID_TRANSACTION, 'vote has been already transaction.')
-        #     itemIdx = itemIdx + 1
+        while itemIdx < itemCnt:
+            voteAddress = get_balance(self.__db, createAddress + '_' + str(itemIdx))
+            self.logd('__invoke_voteTx() voteAddress : ' + voteAddress)
+            if voteAddress is not None and voteAddress != '' :
+                raise IcxError(Code.INVALID_TRANSACTION, 'vote has been already transaction.')
+            itemIdx = itemIdx + 1
 
         itemIdx = 0
         itemAddressLen = len(itemAddress)
