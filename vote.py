@@ -249,12 +249,16 @@ class UserScore(ScoreBase):
         itemIdx = 0
 
         #check address
+        self.logd('__invoke_voteTx() check_address')
         if not check_address(createAddress):
+            self.logd('__invoke_voteTx() create_jsonrpc_error_response')
             return create_jsonrpc_error_response(
                 '0', Code.INVALID_PARAMS, f'invalid address({createAddress})')
 
         #check already
+        self.logd('__invoke_voteTx() while')
         while itemIdx < itemCnt:
+            self.logd('__invoke_voteTx() getBalacnce : ' + get_balance(self.__db, createAddress + '_' + str(itemIdx)))
             voteAddress = get_balance(self.__db, createAddress + '_' + str(itemIdx))
             self.logd('__invoke_voteTx() voteAddress : ' + voteAddress)
             if voteAddress is not None and voteAddress != '' :
